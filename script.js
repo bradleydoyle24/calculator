@@ -40,11 +40,8 @@ operators.forEach((button) => {
   button.addEventListener('click', ()=> {
     // Move value to result so that userNum can be deleted and rewritten with new value.
     // Combine result and userNum in way specified by operator to produce the result
-    if(button.id === 'add') {
-      add(userNum);
-    } else if(button.id === 'subtract') {
-      result = userNum - result;
-    }
+    if(button.id === 'add') {add(userNum);} 
+    else if(button.id === 'subtract') {subtract(userNum);}
     while(userNum.length) {
       userNum.pop();
     }
@@ -57,4 +54,14 @@ function add(userNum){
   result.push(answer);
   answer = 0;
   display.textContent = result.join("");
+  while(userNum.length) {userNum.pop()};
+}
+
+function subtract(userNum){
+  answer = Number(userNum.join("")) - Number(result.join(""));
+  while(result.length) {result.pop()};
+  result.push(answer);
+  answer = 0;
+  display.textContent = result.join("");
+  while(userNum.length) {userNum.pop()};
 }
