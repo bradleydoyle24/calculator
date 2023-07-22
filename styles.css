@@ -12,7 +12,7 @@ body{
   padding: 3vh;
 }
 
-.numb-disp {
+.display {
   display: flex;
   border: solid 1px black;
   width: 20vw;
