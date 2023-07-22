@@ -17,18 +17,44 @@ variable to show current result
   so user can use to calculate with future operands
 */
 
+
+
 // Display should be an array that is turned into a number?
-let display = document.querySelector('.display');
+const display = document.querySelector('#display');
 
 // Array to be used for display
 let userNum = [];
+let result = [];
 
-// query selector all returns array.  name button by id.
-const buttons = document.querySelectorAll('button');
-buttons.forEach((button) => {
+// Selects all numbered buttons only.
+const numbers = document.querySelectorAll('.button-numbers .button');
+numbers.forEach((button) => {
   button.addEventListener('click' , ()=> {
     userNum.push(button.id);
     display.textContent = userNum.join("");
-    console.log(userNum);
   }); 
 });
+
+const operators = document.querySelectorAll('.button-operators .button');
+operators.forEach((button) => {
+  button.addEventListener('click', ()=> {
+    // Move value to result so that userNum can be deleted and rewritten with new value.
+    // Combine result and userNum in way specified by operator to produce the result
+    if(button.id === 'add') {
+      add(userNum);
+    } else if(button.id === 'subtract') {
+      result = userNum - result;
+    }
+    while(userNum.length) {
+      userNum.pop();
+    }
+  });
+});
+
+function add(userNum){
+  answer = Number(userNum.join("")) + Number(result.join(""));
+  while(result.length) {result.pop()};
+  result.push(answer);
+  answer = 0;
+  display.textContent = result.join("");
+}
