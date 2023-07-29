@@ -22,46 +22,70 @@ variable to show current result
 // Display should be an array that is turned into a number?
 const display = document.querySelector('#display');
 
-// Array to be used for display
-let userNum = [];
-let result = [];
+// Arrays to be used for calculations
+let userInput = [];
+let operator;
+let storedInput;
+let result;
 
 // Selects all numbered buttons only.
+// Clicking on numbers adds them to end of userNum array.
 const numbers = document.querySelectorAll('.button-numbers .button');
 numbers.forEach((button) => {
   button.addEventListener('click' , ()=> {
-    userNum.push(button.id);
-    display.textContent = userNum.join("");
+    userInput.push(Number(button.id));
+    display.textContent = userInput.join("");
+    console.log(`user input is ${userInput}`);
   }); 
 });
 
-const operators = document.querySelectorAll('.button-operators .button');
+
+const operators = document.querySelectorAll('.operator-button');
 operators.forEach((button) => {
   button.addEventListener('click', ()=> {
-    // Move value to result so that userNum can be deleted and rewritten with new value.
-    // Combine result and userNum in way specified by operator to produce the result
-    if(button.id === 'add') {add(userNum);} 
-    else if(button.id === 'subtract') {subtract(userNum);}
-    while(userNum.length) {
-      userNum.pop();
-    }
+    storedInput = Number(userInput.join(""));
+    while (userInput.length) {userInput.pop()};
+    operator = button.id;
+
+    console.log(`storedInput is ${storedInput}`)
+    console.log(`userInput is ${userInput}`)
+    console.log(`operator is ${operator}`)
   });
 });
 
-function add(userNum){
-  answer = Number(userNum.join("")) + Number(result.join(""));
-  while(result.length) {result.pop()};
-  result.push(answer);
-  answer = 0;
-  display.textContent = result.join("");
-  while(userNum.length) {userNum.pop()};
+// Takes userNums and applies operator through 'operator' variable.
+const equals = document.querySelector('#equals');
+equals.addEventListener('click', ()=> {
+  if (operator === 'add') {result = add(storedInput, Number(userInput.join("")));}
+  else if (operator === 'subtract') {result = subtract(storedInput, Number(userInput.join("")));}
+  else if (operator === 'multiply') {result = multiply(storedInput, Number(userInput.join("")));}
+  else if (operator === 'divide') {result = divide(storedInput, Number(userInput.join("")));}
+  display.textContent = `${result}`;
+  while (userInput.length) {userInput.pop();}
+  userInput.push(result);
+});
+
+// Joins array to become integer. Add values in temp variable.
+// Empty userNum1 and userNum2. Return temp.
+function add(storedInput, userInput){
+  return storedInput + userInput;
 }
 
-function subtract(userNum){
-  answer = Number(userNum.join("")) - Number(result.join(""));
-  while(result.length) {result.pop()};
-  result.push(answer);
-  answer = 0;
-  display.textContent = result.join("");
-  while(userNum.length) {userNum.pop()};
+function subtract(storedInput, userInput){
+  return storedInput - userInput;
 }
+
+function multiply(storedInput, userInput) {
+  return storedInput * userInput;
+}
+
+function divide(storedInput, userInput) {
+  return storedInput / userInput;
+}
+
+/* 
+Really need to store userNum1 and userNum2 until the operator is selected.
+Then, store the result in a third variable.
+Then, reset both numbers.
+Need a counter to register that userNum1 has been used.
+*/

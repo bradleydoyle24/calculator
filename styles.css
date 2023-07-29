@@ -36,6 +36,7 @@ body{
   flex-direction: column;
 }
 
-.button {
+.button,
+.operator-button {
   font-size: 50px;
 }
