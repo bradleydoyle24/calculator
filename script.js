@@ -35,7 +35,6 @@ numbers.forEach((button) => {
   button.addEventListener('click' , ()=> {
     userInput.push(Number(button.id));
     display.textContent = userInput.join("");
-    console.log(`user input is ${userInput}`);
   }); 
 });
 
@@ -46,14 +45,9 @@ operators.forEach((button) => {
     storedInput = Number(userInput.join(""));
     while (userInput.length) {userInput.pop()};
     operator = button.id;
-
-    console.log(`storedInput is ${storedInput}`)
-    console.log(`userInput is ${userInput}`)
-    console.log(`operator is ${operator}`)
   });
 });
 
-// Takes userNums and applies operator through 'operator' variable.
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', ()=> {
   if (operator === 'add') {result = add(storedInput, Number(userInput.join("")));}
@@ -65,8 +59,7 @@ equals.addEventListener('click', ()=> {
   userInput.push(result);
 });
 
-// Joins array to become integer. Add values in temp variable.
-// Empty userNum1 and userNum2. Return temp.
+// Operator Functions
 function add(storedInput, userInput){
   return storedInput + userInput;
 }
@@ -83,9 +76,11 @@ function divide(storedInput, userInput) {
   return storedInput / userInput;
 }
 
-/* 
-Really need to store userNum1 and userNum2 until the operator is selected.
-Then, store the result in a third variable.
-Then, reset both numbers.
-Need a counter to register that userNum1 has been used.
-*/
+const clear = document.querySelector('#clear');
+clear.addEventListener('click', ()=> clearInfo());
+
+function clearInfo() {
+  storedInput = 0;
+  while(userInput.length) {userInput.pop()};
+  display.textContent = storedInput;
+}
