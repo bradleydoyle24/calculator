@@ -26,6 +26,7 @@ const display = document.querySelector('#display');
 let userInput = [];
 let operator;
 let storedInput;
+let storedInput2;
 let result;
 
 // Selects all numbered buttons only.
@@ -38,42 +39,72 @@ numbers.forEach((button) => {
   }); 
 });
 
-
+// Clicking an operator converts userInput to storedInput.
+// userInput reset to take next user inputted number.
 const operators = document.querySelectorAll('.operator-button');
 operators.forEach((button) => {
   button.addEventListener('click', ()=> {
-    storedInput = Number(userInput.join(""));
-    while (userInput.length) {userInput.pop()};
-    operator = button.id;
+    if (storedInput === undefined) {
+      storedInput = Number(userInput.join(""));
+      operator = button.id;
+      while (userInput.length) {userInput.pop()};
+      display.textContent = `${storedInput}`;
+      console.log(`storedInput is ${storedInput}`)
+    }
+    else {
+      storedInput2 = Number(userInput.join(""));
+      operator = button.id;
+      while (userInput.length) {userInput.pop()};
+      result = findResult(storedInput, storedInput2, operator);
+      display.textContent = `${result}`;
+      console.log(`storedInput2 is ${storedInput2}`)
+      storedInput = result;
+      console.log(`storedInput is now ${storedInput}`)
+    }
   });
 });
 
+
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', ()=> {
-  if (operator === 'add') {result = add(storedInput, Number(userInput.join("")));}
-  else if (operator === 'subtract') {result = subtract(storedInput, Number(userInput.join("")));}
-  else if (operator === 'multiply') {result = multiply(storedInput, Number(userInput.join("")));}
-  else if (operator === 'divide') {result = divide(storedInput, Number(userInput.join("")));}
+  result = findResult(storedInput, storedInput2, operator);
   display.textContent = `${result}`;
   while (userInput.length) {userInput.pop();}
-  userInput.push(result);
+  display.textContent = `${result}`;
+  storedInput = result;
 });
 
+/* After operator is clicked, userInput is reset, and storedInput contains the value.
+Use 'operator' as an argument to call the proper operator function. 
+We are trying to combine 'equals' and 'operator' so that a result is created each time
+an operator is selected.
+'equals' needs to be it's own formula. Needs userInput, storedInput, and operator. 
+Need to wait until at least 2 values are used.
+Currently using
+ */
+
+function findResult(storedInput, storedInput2, operator) {
+  if (operator === 'add') {return add(storedInput, storedInput2);}
+  else if (operator === 'subtract') {return subtract(storedInput, storedInput2);}
+  else if (operator === 'multiply') {return multiply(storedInput, storedInput2);}
+  else if (operator === 'divide') {return divide(storedInput, storedInput2);}
+}
+
 // Operator Functions
-function add(storedInput, userInput){
-  return storedInput + userInput;
+function add(storedInput, storedInput2){
+  return storedInput + storedInput2;
 }
 
-function subtract(storedInput, userInput){
-  return storedInput - userInput;
+function subtract(storedInput, storedInput2){
+  return storedInput - storedInput2;
 }
 
-function multiply(storedInput, userInput) {
-  return storedInput * userInput;
+function multiply(storedInput, storedInput2) {
+  return storedInput * storedInput2;
 }
 
-function divide(storedInput, userInput) {
-  return storedInput / userInput;
+function divide(storedInput, storedInput2) {
+  return storedInput / storedInput2;
 }
 
 const clear = document.querySelector('#clear');
@@ -81,6 +112,7 @@ clear.addEventListener('click', ()=> clearInfo());
 
 function clearInfo() {
   storedInput = 0;
+  storedInput2 = 0;
   while(userInput.length) {userInput.pop()};
   display.textContent = storedInput;
 }
