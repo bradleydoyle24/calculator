@@ -49,14 +49,14 @@ operators.forEach((button) => {
       operator = button.id;
       while (userInput.length) {userInput.pop()};
       display.textContent = `${storedInput}`;
-      console.log(`storedInput is ${storedInput}`)
+      console.log(`storedInput is ${storedInput}`);
     }
     else {
       storedInput2 = Number(userInput.join(""));
-      operator = button.id;
       while (userInput.length) {userInput.pop()};
       result = findResult(storedInput, storedInput2, operator);
       display.textContent = `${result}`;
+      operator = button.id;
       console.log(`storedInput2 is ${storedInput2}`)
       storedInput = result;
       console.log(`storedInput is now ${storedInput}`)
@@ -67,6 +67,7 @@ operators.forEach((button) => {
 
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', ()=> {
+  storedInput2 = Number(userInput.join(""));
   result = findResult(storedInput, storedInput2, operator);
   display.textContent = `${result}`;
   while (userInput.length) {userInput.pop();}
@@ -111,8 +112,9 @@ const clear = document.querySelector('#clear');
 clear.addEventListener('click', ()=> clearInfo());
 
 function clearInfo() {
-  storedInput = 0;
+  // Undefined wil cause storedInput to be redefined in operator-button event listener 'click'
+  storedInput = undefined;
   storedInput2 = 0;
   while(userInput.length) {userInput.pop()};
-  display.textContent = storedInput;
+  display.textContent = 0;
 }
