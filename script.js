@@ -33,11 +33,20 @@ let textCount;
 
 // Selects all numbered buttons only.
 // Clicking on numbers adds them to end of userNum array.
+// If/else limits numbers entered to be <= 10 digits in length. 
 const numbers = document.querySelectorAll('.button-numbers .button');
 numbers.forEach((button) => {
   button.addEventListener('click' , ()=> {
-    userInput.push(Number(button.id));
-    display.textContent = userInput.join("");
+    if(userInput.length < 10) {
+      userInput.push(Number(button.id));
+      display.textContent = userInput.join("");
+    } else {
+      userInput.push(Number(button.id));
+      let tempArray = userInput.slice(1);
+      userInput = tempArray;
+      display.textContent = userInput.join("");
+      console.log(userInput.join(""));
+    }
   }); 
 });
 
@@ -107,13 +116,3 @@ function clearInfo() {
   while(userInput.length) {userInput.pop();}
   display.textContent = 0;
 }
-/*
-Get display width in pixels
-Define display text size as 10% of width
-When answer reaches 10 numbers:
-  Calculate value in scientific notation
-  Display in scientific notation so that it only takes 5 digits.
-
-Also need to only accept numbers smaller than 10 numbers.  After 10th number,
-  Simply stop recieving inputs.
- */
