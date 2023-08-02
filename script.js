@@ -29,6 +29,8 @@ let storedInput;
 let storedInput2;
 let result;
 
+let textCount;
+
 // Selects all numbered buttons only.
 // Clicking on numbers adds them to end of userNum array.
 const numbers = document.querySelectorAll('.button-numbers .button');
@@ -49,7 +51,6 @@ operators.forEach((button) => {
       operator = button.id;
       while (userInput.length) {userInput.pop()};
       display.textContent = `${storedInput}`;
-      console.log(`storedInput is ${storedInput}`);
     }
     else {
       storedInput2 = Number(userInput.join(""));
@@ -57,9 +58,7 @@ operators.forEach((button) => {
       result = findResult(storedInput, storedInput2, operator);
       display.textContent = `${result}`;
       operator = button.id;
-      console.log(`storedInput2 is ${storedInput2}`)
       storedInput = result;
-      console.log(`storedInput is now ${storedInput}`)
     }
   });
 });
@@ -70,19 +69,9 @@ equals.addEventListener('click', ()=> {
   storedInput2 = Number(userInput.join(""));
   result = findResult(storedInput, storedInput2, operator);
   display.textContent = `${result}`;
-  while (userInput.length) {userInput.pop();}
-  display.textContent = `${result}`;
   storedInput = result;
+  while (userInput.length) {userInput.pop();}
 });
-
-/* After operator is clicked, userInput is reset, and storedInput contains the value.
-Use 'operator' as an argument to call the proper operator function. 
-We are trying to combine 'equals' and 'operator' so that a result is created each time
-an operator is selected.
-'equals' needs to be it's own formula. Needs userInput, storedInput, and operator. 
-Need to wait until at least 2 values are used.
-Currently using
- */
 
 function findResult(storedInput, storedInput2, operator) {
   if (operator === 'add') {return add(storedInput, storedInput2);}
@@ -115,6 +104,16 @@ function clearInfo() {
   // Undefined wil cause storedInput to be redefined in operator-button event listener 'click'
   storedInput = undefined;
   storedInput2 = 0;
-  while(userInput.length) {userInput.pop()};
+  while(userInput.length) {userInput.pop();}
   display.textContent = 0;
 }
+/*
+Get display width in pixels
+Define display text size as 10% of width
+When answer reaches 10 numbers:
+  Calculate value in scientific notation
+  Display in scientific notation so that it only takes 5 digits.
+
+Also need to only accept numbers smaller than 10 numbers.  After 10th number,
+  Simply stop recieving inputs.
+ */
