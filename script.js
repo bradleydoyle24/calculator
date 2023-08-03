@@ -25,8 +25,8 @@ const display = document.querySelector('#display');
 // Arrays to be used for calculations
 let userInput = [];
 let operator;
-let storedInput;
-let storedInput2;
+let number1;
+let number2;
 let result;
 let dispNum;
 
@@ -48,24 +48,28 @@ numbers.forEach((button) => {
   }); 
 });
 
-// Clicking an operator converts userInput to storedInput.
-// userInput reset to take next user inputted number.
+
 const operators = document.querySelectorAll('.operator-button');
 operators.forEach((button) => {
   button.addEventListener('click', ()=> {
-    if (storedInput === undefined) {
-      storedInput = Number(userInput.join(""));
+    // Variable 'operator' reset to 'undefined' at end of 'equals' button function.
+    if (operator === undefined) {operator = button.id};
+    // Checks if this is the first user input. 
+    if (number1 === undefined) {
+      number1 = Number(userInput.join(""));
       operator = button.id;
       while (userInput.length) {userInput.pop()};
-      display.textContent = `${storedInput}`;
+      display.textContent = `${number1}`;
     }
     else {
-      storedInput2 = Number(userInput.join(""));
+      // After first user input, all user input is set to number2.
+      number2 = Number(userInput.join(""));
       while (userInput.length) {userInput.pop()};
-      result = findResult(storedInput, storedInput2, operator);
-      display.textContent = `${result}`;
       operator = button.id;
-      typeof result === 'string' ? storedInput = Number(result) : storedInput = result;
+      result = findResult(number1, number2, operator);
+      dispNum = checkLength(result);
+      display.textContent = `${dispNum}`;
+      number1 = result;
     }
   });
 });
@@ -73,21 +77,27 @@ operators.forEach((button) => {
 
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', ()=> {
-  storedInput2 = Number(userInput.join(""));
-  result = findResult(storedInput, storedInput2, operator);
+  number2 = Number(userInput.join(""));
+  result = findResult(number1, number2, operator);
   dispNum = checkLength(result);
-  display.textContent = `${dispNum}`;
-  storedInput = result;
-  console.log(storedInput);
-  console.log(typeof storedInput);
+  display.textContent = `${dispNum}`; 
+  // Sets number1 to result so that it is automatically used in next equation.
+  number1 = result;
   while (userInput.length) {userInput.pop();}
+  // Waits for user to click another operator before a calculation is performed.
+  operator = undefined;
+  let numString = result.toString();
+  // userInput array is used to generate number2 of equation.
+  for(i = 0; i < numString.length; i++) {
+    userInput.push(numString[i]);
+  }
 });
 
-function findResult(storedInput, storedInput2, operator) {
-  if (operator === 'add') {return add(storedInput, storedInput2);}
-  else if (operator === 'subtract') {return subtract(storedInput, storedInput2);}
-  else if (operator === 'multiply') {return multiply(storedInput, storedInput2);}
-  else if (operator === 'divide') {return divide(storedInput, storedInput2);}
+function findResult(number1, number2, operator) {
+  if (operator === 'add') {return add(number1, number2);}
+  else if (operator === 'subtract') {return subtract(number1, number2);}
+  else if (operator === 'multiply') {return multiply(number1, number2);}
+  else if (operator === 'divide') {return divide(number1, number2);}
 }
 
 function checkLength(result) {
@@ -114,29 +124,29 @@ Display needs to be in scientific notation, limited to 4 digits.
 */ 
 
 // Operator Functions
-function add(storedInput, storedInput2){
-  return storedInput + storedInput2;
+function add(number1, number2){
+  return number1 + number2;
 }
 
-function subtract(storedInput, storedInput2){
-  return storedInput - storedInput2;
+function subtract(number1, number2){
+  return number1 - number2;
 }
 
-function multiply(storedInput, storedInput2) {
-  return storedInput * storedInput2;
+function multiply(number1, number2) {
+  return number1 * number2;
 }
 
-function divide(storedInput, storedInput2) {
-  return storedInput / storedInput2;
+function divide(number1, number2) {
+  return number1 / number2;
 }
 
 const clear = document.querySelector('#clear');
 clear.addEventListener('click', ()=> clearInfo());
 
 function clearInfo() {
-  // Undefined wil cause storedInput to be redefined in operator-button event listener 'click'
-  storedInput = undefined;
-  storedInput2 = 0;
+  // Undefined wil cause number1 to be redefined in operator-button event listener 'click'
+  number1 = undefined;
+  number2 = 0;
   while(userInput.length) {userInput.pop();}
   display.textContent = 0;
 }
