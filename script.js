@@ -69,8 +69,8 @@ operators.forEach((button) => {
       while (userInput.length) {
         userInput.pop();
       }
-      operator = button.id;
       result = findResult(number1, number2, operator);
+      operator = button.id;
       createDisplay(result);
       number1 = result;
     }
@@ -146,3 +146,13 @@ function clearInfo() {
   result = 0;
   operator = undefined;
 }
+
+/*
+Allow calculator to be used by pressing keys on keyboard.  
+Number keys
+operators
+enter = equals
+
+also forgot decimals!!
+*/
+
