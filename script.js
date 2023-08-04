@@ -30,9 +30,7 @@ let number2;
 let result;
 let dispNum;
 
-// Selects all numbered buttons only.
-// Clicking on numbers adds them to end of userNum array.
-// If/else limits numbers entered to be <= 10 digits in length. 
+// Clicking a numbered button will add to userInput until 10 digits, then digits are overwritten.
 const numbers = document.querySelectorAll('.button-numbers .button');
 numbers.forEach((button) => {
   button.addEventListener('click' , ()=> {
@@ -48,58 +46,61 @@ numbers.forEach((button) => {
   }); 
 });
 
-
+// Turns userInput array into either 'number1' or 'number2'.  All calculations are performed with these variables.
 const operators = document.querySelectorAll('.operator-button');
 operators.forEach((button) => {
   button.addEventListener('click', ()=> {
-    // Variable 'operator' reset to 'undefined' at end of 'equals' button function.
+    // 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
     if (operator === undefined) {operator = button.id};
-    // Checks if this is the first user input. 
+    // 'number1' is undefined if it is first user input, or first user input after pressing equals.
     if (number1 === undefined) {
       number1 = Number(userInput.join(""));
       operator = button.id;
-      while (userInput.length) {userInput.pop()};
-      display.textContent = `${number1}`;
+      while (userInput.length) {
+        userInput.pop()
+      };
+      createDisplay(number1);
     }
     else {
-      // After first user input, all user input is set to number2.
+      /* After first user input, all user input is set to 'number2'. Results of calculations are 
+      then set to 'number1' so running calculations can be performed without clicking 'equals' 
+      each time. */
       number2 = Number(userInput.join(""));
-      while (userInput.length) {userInput.pop()};
+      while (userInput.length) {
+        userInput.pop();
+      }
       operator = button.id;
       result = findResult(number1, number2, operator);
-      dispNum = checkLength(result);
-      display.textContent = `${dispNum}`;
+      createDisplay(result);
       number1 = result;
     }
   });
 });
 
-
+/* 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
+number1 reset to undefined so that a number will have to be entered for a calculation to be performed. */
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', ()=> {
   number2 = Number(userInput.join(""));
   result = findResult(number1, number2, operator);
-  dispNum = checkLength(result);
-  display.textContent = `${dispNum}`; 
-  // Sets number1 to result so that it is automatically used in next equation.
-  number1 = result;
+  createDisplay(result);
   while (userInput.length) {userInput.pop();}
-  // Waits for user to click another operator before a calculation is performed.
-  operator = undefined;
+    operator = undefined;
   let numString = result.toString();
-  // userInput array is used to generate number2 of equation.
   for(i = 0; i < numString.length; i++) {
     userInput.push(numString[i]);
   }
+  number1 = undefined;
 });
 
-function findResult(number1, number2, operator) {
-  if (operator === 'add') {return add(number1, number2);}
-  else if (operator === 'subtract') {return subtract(number1, number2);}
-  else if (operator === 'multiply') {return multiply(number1, number2);}
-  else if (operator === 'divide') {return divide(number1, number2);}
+// Changes display to scientific notation if number > 10 characters long.
+function createDisplay(number){
+  dispNum = checkLength(number);
+  display.textContent = `${dispNum}`; 
 }
 
+// Checks length of result for display.  If > 10, converts to scientific notation (which is a string).
+// The returned value is used as the display only and the true value still used in calculations.
 function checkLength(result) {
   let string = result.toString();
   if (string.length < 11) {
@@ -110,18 +111,12 @@ function checkLength(result) {
   }
 }
 
-// Function to check length of result and return in scientific notation if needed.
-// If negative, need to leave room for negative sign, so only have 9 digits available.
-// Turn into string.
-// Check length of string.
-// If length > 10 (9 for negative numbers):
-//  convert to scientific notation.
-//  1.234 e10;
-/*
-Need to store true number in memory, but display scientific notation.
-'result' needs to stay as true number, and used this way when entering more numbers
-Display needs to be in scientific notation, limited to 4 digits.
-*/ 
+function findResult(number1, number2, operator) {
+  if (operator === 'add') {return add(number1, number2);}
+  else if (operator === 'subtract') {return subtract(number1, number2);}
+  else if (operator === 'multiply') {return multiply(number1, number2);}
+  else if (operator === 'divide') {return divide(number1, number2);}
+}
 
 // Operator Functions
 function add(number1, number2){
@@ -144,9 +139,10 @@ const clear = document.querySelector('#clear');
 clear.addEventListener('click', ()=> clearInfo());
 
 function clearInfo() {
-  // Undefined wil cause number1 to be redefined in operator-button event listener 'click'
   number1 = undefined;
-  number2 = 0;
+  number2 = undefined;
   while(userInput.length) {userInput.pop();}
   display.textContent = 0;
+  result = 0;
+  operator = undefined;
 }
