@@ -74,6 +74,7 @@ operators.forEach((button) => {
   });
 });
 
+// EQUALS BUTTON
 /* 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
 number1 reset to undefined so that a number will have to be entered for a calculation to be performed. */
 const equals = document.querySelector('#equals');
@@ -103,35 +104,49 @@ function checkLength(result) {
   if (string.length < 11) {
     return result;
   } else {
-    let sciResult = result.toExponential(3);
+    let sciResult = Number(result).toExponential(3);
     return sciResult;
   }
 }
 
 function findResult(number1, number2, operator) {
+  if (operator === undefined) {return number2};
   if (operator === 'add') {return add(number1, number2);}
   else if (operator === 'subtract') {return subtract(number1, number2);}
   else if (operator === 'multiply') {return multiply(number1, number2);}
   else if (operator === 'divide') {return divide(number1, number2);}
 }
 
-// Operator Functions
+// OPERATOR FUNCTIONS
 function add(number1, number2){
+  if (number1 === undefined) {
+    number1 = 0;
+  }
   return number1 + number2;
 }
 
 function subtract(number1, number2){
+  if (number1 === undefined) {
+    number1 = 0;
+  }
   return number1 - number2;
 }
 
 function multiply(number1, number2) {
+  if (number1 === undefined) {
+    number1 = 1;
+  }
   return number1 * number2;
 }
 
 function divide(number1, number2) {
+  if (number1 === undefined) {
+    number1 = 1;
+  }
   return number1 / number2;
 }
 
+// CLEAR BUTTON
 const clear = document.querySelector('#clear');
 clear.addEventListener('click', ()=> clearInfo());
 
@@ -149,7 +164,9 @@ let backspace = document.querySelector('#backspace');
 backspace.addEventListener('click', ()=> {
   if(userInput.length > 0) {
     userInput.pop();
-    display.textContent = userInput.join("");
+    number = userInput.join("");
+    result = checkLength(number);
+    createDisplay(result);
   }
   else {
     userInput = 0;
