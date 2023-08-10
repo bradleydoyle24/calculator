@@ -91,6 +91,7 @@ equals.addEventListener('click', ()=> {
     operator = undefined;
   let numString = result.toString();
   for(i = 0; i < numString.length; i++) {
+    if (numString[i] === 'e') {break};
     userInput.push(numString[i]);
   }
   number1 = undefined;
