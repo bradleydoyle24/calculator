@@ -162,7 +162,7 @@ function clearInfo() {
 // BACKSPACE BUTTON
 let backspace = document.querySelector('#backspace');
 backspace.addEventListener('click', ()=> {
-  if(userInput.length > 0) {
+  if(userInput.length > 1) {
     userInput.pop();
     number = userInput.join("");
     result = checkLength(number);
