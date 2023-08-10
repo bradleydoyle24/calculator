@@ -1,26 +1,31 @@
 body{
   display: flex;
   justify-content: center;
+  background-color:blanchedalmond;
 }
 .calc {
   display: flex;
   flex-direction: column;
   width: fit-content;
-  border: solid 1px black;
+  border: solid 5px lightslategray;
   margin: 5vh;
   align-items: center;
   padding: 3vh;
+  border-radius: 12px;
+  background-color:darksalmon;
 }
 
 .display {
   display: flex;
-  border: solid 1px black;
+  border: solid 2px black;
   width: 300px;
   font-family: 'Courier New', Courier, monospace;
   font-size: 50px;
   font-weight: bold;
   justify-content: right;
   margin: 5px;
+  border-radius: 5px;
+  background-color:floralwhite;
 }
 
 .button-cont {
@@ -44,9 +49,32 @@ body{
 .operator-button {
   font-size: 50px;
   width: 50px;
+  padding: 2px;
+  border-radius: 5px;
+  background-color:lightslategray;
+  margin: 2px;
+}
+
+.button-row {
+  padding: 2px;
+}
+
+.right-div {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.operator-column {
+  display: flex;
+}
+
+.operator-button {
+  margin: 2px;
 }
 
 .bottom-row {
   display: flex;
   justify-content: space-around;
+  margin: 2px;
 }
