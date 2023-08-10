@@ -8,22 +8,38 @@ let number1;
 let number2;
 let result;
 let dispNum;
+let decimalPresent = false;
 
 // Clicking a numbered button will add to userInput until 10 digits, then digits are overwritten.
-const numbers = document.querySelectorAll('.button-numbers .button');
+const numbers = document.querySelectorAll('.button-numbers .numbers');
 numbers.forEach((button) => {
   button.addEventListener('click' , ()=> {
-    if(userInput.length < 10) {
-      userInput.push(Number(button.id));
-      display.textContent = userInput.join("");
-    } else {
-      userInput.push(Number(button.id));
-      let tempArray = userInput.slice(1);
-      userInput = tempArray;
-      display.textContent = userInput.join("");
-    }
+    createUserInput(button.id);
   }); 
 });
+
+let decimal = document.querySelector('#decimal');
+decimal.addEventListener('click', ()=> {
+  while (decimalPresent === false) {
+    userInput.push('.');
+    createDisplay(userInput.join(""));
+    decimalPresent = true
+  }
+});
+
+/* Function for number presses, to assign to key presses as well as screen clicks. */
+function createUserInput(number) {
+  if(userInput.length < 10) {
+    userInput.push(Number(number));
+    display.textContent = userInput.join("");
+  } else {
+    userInput.push(Number(number));
+    let tempArray = userInput.slice(1);
+    userInput = tempArray;
+    display.textContent = userInput.join("");
+  }
+}
+
 
 // Turns userInput array into either 'number1' or 'number2'.  All calculations are performed with these variables.
 const operators = document.querySelectorAll('.operator-button');
@@ -39,6 +55,7 @@ operators.forEach((button) => {
         userInput.pop()
       };
       createDisplay(number1);
+      decimalPresent = false;
     }
     else {
       /* After first user input, all user input is set to 'number2'. Results of calculations are 
@@ -52,6 +69,7 @@ operators.forEach((button) => {
       operator = button.id;
       createDisplay(result);
       number1 = result;
+      decimalPresent = false;
     }
   });
 });
@@ -126,12 +144,15 @@ function clearInfo() {
   operator = undefined;
 }
 
-/*
-Allow calculator to be used by pressing keys on keyboard.  
-Number keys
-operators
-enter = equals
-
-also forgot decimals!!
-*/
-
+// BACKSPACE BUTTON
+let backspace = document.querySelector('#backspace');
+backspace.addEventListener('click', ()=> {
+  if(userInput.length > 0) {
+    userInput.pop();
+    display.textContent = userInput.join("");
+  }
+  else {
+    userInput = 0;
+    display.textContent = userInput;
+  }
+});

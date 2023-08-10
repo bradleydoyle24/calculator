@@ -43,6 +43,7 @@ body{
 .numbers,
 .operator-button {
   font-size: 50px;
+  width: 50px;
 }
 
 .bottom-row {
