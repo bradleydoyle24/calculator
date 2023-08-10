@@ -30,6 +30,11 @@ decimal.addEventListener('click', ()=> {
 /* Function for number presses, to assign to key presses as well as screen clicks. */
 function createUserInput(number) {
   if(userInput.length < 10) {
+    // Removes leading 0 after pressing '0 equals', or display of 'Infinity'.
+    if((userInput.length === 1 && userInput == 0) 
+    || (display.textContent == 'Infinity')) {
+      while(userInput.length) {userInput.pop()};
+    }
     userInput.push(Number(number));
     display.textContent = userInput.join("");
   } else {
@@ -162,6 +167,12 @@ function clearInfo() {
 // BACKSPACE BUTTON
 let backspace = document.querySelector('#backspace');
 backspace.addEventListener('click', ()=> {
+  if (display.textContent === 'Infinity') {
+    while(userInput.length) {
+      userInput.pop();
+    }
+    display.textContent = 0;
+  }
   if(userInput.length > 1) {
     userInput.pop();
     number = userInput.join("");
@@ -169,7 +180,7 @@ backspace.addEventListener('click', ()=> {
     createDisplay(result);
   }
   else {
-    userInput = 0;
-    display.textContent = userInput;
+    userInput.pop();
+    display.textContent = 0;
   }
 });
