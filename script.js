@@ -18,6 +18,7 @@ numbers.forEach((button) => {
   }); 
 });
 
+// decimalPresent prevents multiple decimals from being used.
 let decimal = document.querySelector('#decimal');
 decimal.addEventListener('click', ()=> {
   while (decimalPresent === false) {
@@ -30,7 +31,7 @@ decimal.addEventListener('click', ()=> {
 /* Function for number presses, to assign to key presses as well as screen clicks. */
 function createUserInput(number) {
   if(userInput.length < 10) {
-    // Removes leading 0 after pressing '0 equals', or display of 'Infinity'.
+    // Removes leading 0 after calculation results in '0' on display, or display shows 'Infinity'.
     if((userInput.length === 1 && userInput == 0) 
     || (display.textContent == 'Infinity')) {
       while(userInput.length) {userInput.pop()};
@@ -52,22 +53,16 @@ operators.forEach((button) => {
   button.addEventListener('click', () => makeEquation(button))
 });
 
-
 function makeEquation(button) {
     // 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
     if (operator === undefined) {operator = button.id};
     // 'number1' is undefined if it is first user input, or first user input after pressing equals.
     if (number1 === undefined) {
-      number1 = Number(userInput.join(""));
+      getNumber1(userInput);
       operator = button.id;
-      while (userInput.length) {
-        userInput.pop()
-      };
-      createDisplay(number1);
-      decimalPresent = false;
     }
     else {
-      /* After first user input, all user input is set to 'number2'. Results of calculations are 
+      /* After first user input, all user input is set to 'number2'. Results of each calculation are 
       then set to 'number1' so running calculations can be performed without clicking 'equals' 
       each time. */
       number2 = Number(userInput.join(""));
@@ -81,6 +76,15 @@ function makeEquation(button) {
       decimalPresent = false;
     }
   };
+
+function getNumber1(array) {
+  number1 = Number(array.join(""));
+  while (array.length) {
+    array.pop()
+  };
+  createDisplay(number1);
+  decimalPresent = false;
+}
 
 // EQUALS BUTTON
 /* 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
@@ -190,6 +194,7 @@ backspace.addEventListener('click', ()=> {
 });
 
 window.addEventListener('keydown', (e) => matchNumber(e));
+window.addEventListener('keydown', (e) => matchOperator(e));
 
 
 
@@ -202,9 +207,9 @@ function matchNumber(e) {
 }
 
 function matchOperator(e) {
-  numbers.forEach((number) => {
-    if (number.id === e.key) {
-      createUserInput(e.key);
+  operators.forEach((button) => {
+    if (button.id === e.key) {
+      makeEquation(button);
     }
   });
 }
