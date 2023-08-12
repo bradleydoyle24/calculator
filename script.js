@@ -49,7 +49,11 @@ function createUserInput(number) {
 // Turns userInput array into either 'number1' or 'number2'.  All calculations are performed with these variables.
 const operators = document.querySelectorAll('.operator-button');
 operators.forEach((button) => {
-  button.addEventListener('click', ()=> {
+  button.addEventListener('click', () => makeEquation(button))
+});
+
+
+function makeEquation(button) {
     // 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
     if (operator === undefined) {operator = button.id};
     // 'number1' is undefined if it is first user input, or first user input after pressing equals.
@@ -76,8 +80,7 @@ operators.forEach((button) => {
       number1 = result;
       decimalPresent = false;
     }
-  });
-});
+  };
 
 // EQUALS BUTTON
 /* 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
@@ -191,6 +194,14 @@ window.addEventListener('keydown', (e) => matchNumber(e));
 
 
 function matchNumber(e) {
+  numbers.forEach((number) => {
+    if (number.id === e.key) {
+      createUserInput(e.key);
+    }
+  });
+}
+
+function matchOperator(e) {
   numbers.forEach((number) => {
     if (number.id === e.key) {
       createUserInput(e.key);
