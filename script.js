@@ -185,3 +185,20 @@ backspace.addEventListener('click', ()=> {
     display.textContent = 0;
   }
 });
+
+window.addEventListener('keydown', (e) => {
+  numbers.forEach((number) => {
+    if (number.id === e.key) {
+      console.log(`number.id is ${number.id} and e.key is ${e.key}`);
+      createUserInput(e.key);
+    }
+  });
+  console.log(e.key);
+});
+function matchKey(key) {
+  numbers.forEach((number) => {
+    if(key === number.id) {
+      createUserInput(key);
+    }
+  });
+}
