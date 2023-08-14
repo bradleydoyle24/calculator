@@ -10,6 +10,7 @@ let result;
 let dispNum;
 let decimalPresent = false;
 
+// NUMBER KEYS
 // Clicking a numbered button will add to userInput until 10 digits, then digits are overwritten.
 const numbers = document.querySelectorAll('.button-numbers .numbers');
 numbers.forEach((button) => {
@@ -30,23 +31,16 @@ decimal.addEventListener('click', ()=> {
 
 /* Function for number presses, to assign to key presses as well as screen clicks. */
 function createUserInput(number) {
-  if(userInput.length < 10) {
     // Removes leading 0 after calculation results in '0' on display, or display shows 'Infinity'.
     if((userInput.length === 1 && userInput == 0) 
     || (display.textContent == 'Infinity')) {
       while(userInput.length) {userInput.pop()};
     }
     userInput.push(Number(number));
-    display.textContent = userInput.join("");
-  } else {
-    userInput.push(Number(number));
-    let tempArray = userInput.slice(1);
-    userInput = tempArray;
-    display.textContent = userInput.join("");
+    createDisplay(userInput.join(""));
   }
-}
 
-
+// OPERATOR KEYS
 // Turns userInput array into either 'number1' or 'number2'.  All calculations are performed with these variables.
 const operators = document.querySelectorAll('.operator-button');
 operators.forEach((button) => {
@@ -81,7 +75,7 @@ function getNumber1(array) {
   number1 = Number(array.join(""));
   while (array.length) {
     array.pop()
-  };
+  }
   createDisplay(number1);
   decimalPresent = false;
 }
@@ -202,6 +196,8 @@ function backspace(array) {
 window.addEventListener('keydown', (e) => matchNumber(e));
 window.addEventListener('keydown', (e) => matchOperator(e));
 window.addEventListener('keydown', (e) => getEqualsKeyboard(e));
+window.addEventListener('keydown', (e) => backspaceKey(e));
+window.addEventListener('keydown', (e) => clearKeyboard(e));
 
 function matchNumber(e) {
   numbers.forEach((number) => {
@@ -222,6 +218,18 @@ function matchOperator(e) {
 function getEqualsKeyboard(e) {
   if((e.key === '=') || (e.key === 'Enter')) {
     getEquals(userInput);
+  }
+} 
+
+function backspaceKey(e) {
+  if (e.key === 'Backspace') {
+    backspace(userInput);
+  }
+}
+
+function clearKeyboard(e) {
+  if (e.key === 'c') {
+    clearInfo();
   }
 }
 
