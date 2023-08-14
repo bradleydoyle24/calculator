@@ -21,13 +21,15 @@ numbers.forEach((button) => {
 
 // decimalPresent prevents multiple decimals from being used.
 let decimal = document.querySelector('#decimal');
-decimal.addEventListener('click', ()=> {
+decimal.addEventListener('click', ()=> addDecimal());
+
+function addDecimal() {
   while (decimalPresent === false) {
     userInput.push('.');
     createDisplay(userInput.join(""));
     decimalPresent = true
   }
-});
+}
 
 /* Function for number presses, to assign to key presses as well as screen clicks. */
 function createUserInput(number) {
@@ -198,6 +200,8 @@ window.addEventListener('keydown', (e) => matchOperator(e));
 window.addEventListener('keydown', (e) => getEqualsKeyboard(e));
 window.addEventListener('keydown', (e) => backspaceKey(e));
 window.addEventListener('keydown', (e) => clearKeyboard(e));
+window.addEventListener('keydown', (e) => addDecimalKeyboard(e));
+
 
 function matchNumber(e) {
   numbers.forEach((number) => {
@@ -230,6 +234,12 @@ function backspaceKey(e) {
 function clearKeyboard(e) {
   if (e.key === 'c') {
     clearInfo();
+  }
+}
+
+function addDecimalKeyboard(e) {
+  if(e.key === '.') {
+    addDecimal();
   }
 }
 
