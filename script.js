@@ -87,22 +87,24 @@ function getNumber1(array) {
 }
 
 // EQUALS BUTTON
-/* 'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
-number1 reset to undefined so that a number will have to be entered for a calculation to be performed. */
 const equals = document.querySelector('#equals');
-equals.addEventListener('click', ()=> {
-  number2 = Number(userInput.join(""));
+equals.addEventListener('click', () => getEquals(userInput));
+
+function getEquals(array) {
+  number2 = Number(array.join(""));
   result = findResult(number1, number2, operator);
   createDisplay(result);
-  while (userInput.length) {userInput.pop();}
+  //'operator' undefined after pressing 'equals', otherwise, a calculation is performed with old values.
+  while (array.length) {array.pop();}
     operator = undefined;
   let numString = result.toString();
   for(i = 0; i < numString.length; i++) {
     if (numString[i] === 'e') {break};
-    userInput.push(numString[i]);
+    array.push(numString[i]);
   }
+  // 'number1' reset to undefined so that a number will have to be entered for a calculation to be performed. */
   number1 = undefined;
-});
+}
 
 // Changes display to scientific notation if number > 10 characters long.
 function createDisplay(number){
@@ -197,6 +199,11 @@ backspace.addEventListener('click', ()=> {
 //KEYBOARD INPUTS 
 window.addEventListener('keydown', (e) => matchNumber(e));
 window.addEventListener('keydown', (e) => matchOperator(e));
+window.addEventListener('keydown', (e) => {
+  if(e.key === '=') {
+
+  }
+});
 
 function matchNumber(e) {
   numbers.forEach((number) => {
