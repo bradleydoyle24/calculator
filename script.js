@@ -124,10 +124,10 @@ function checkLength(result) {
 
 function findResult(number1, number2, operator) {
   if (operator === undefined) {return number2};
-  if (operator === 'add') {return add(number1, number2);}
-  else if (operator === 'subtract') {return subtract(number1, number2);}
-  else if (operator === 'multiply') {return multiply(number1, number2);}
-  else if (operator === 'divide') {return divide(number1, number2);}
+  if (operator === '+') {return add(number1, number2);}
+  else if (operator === '-') {return subtract(number1, number2);}
+  else if (operator === '*') {return multiply(number1, number2);}
+  else if (operator === '/') {return divide(number1, number2);}
 }
 
 // OPERATOR FUNCTIONS
@@ -193,10 +193,10 @@ backspace.addEventListener('click', ()=> {
   }
 });
 
+
+//KEYBOARD INPUTS 
 window.addEventListener('keydown', (e) => matchNumber(e));
 window.addEventListener('keydown', (e) => matchOperator(e));
-
-
 
 function matchNumber(e) {
   numbers.forEach((number) => {
@@ -213,3 +213,5 @@ function matchOperator(e) {
     }
   });
 }
+
+window.addEventListener('keydown', (e) => console.log(e.key));
