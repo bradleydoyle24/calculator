@@ -175,25 +175,27 @@ function clearInfo() {
 }
 
 // BACKSPACE BUTTON
-let backspace = document.querySelector('#backspace');
-backspace.addEventListener('click', ()=> {
+let backspaceButton = document.querySelector('#backspace');
+backspaceButton.addEventListener('click', () => backspace(userInput));
+
+function backspace(array) {
   if (display.textContent === 'Infinity') {
-    while(userInput.length) {
-      userInput.pop();
+    while(array.length) {
+      array.pop();
     }
     display.textContent = 0;
   }
-  if(userInput.length > 1) {
-    userInput.pop();
-    number = userInput.join("");
+  if(array.length > 1) {
+    array.pop();
+    number = array.join("");
     result = checkLength(number);
     createDisplay(result);
   }
   else {
-    userInput.pop();
+    array.pop();
     display.textContent = 0;
   }
-});
+}
 
 
 //KEYBOARD INPUTS 
