@@ -87,7 +87,7 @@ function getNumber1(array) {
 }
 
 // EQUALS BUTTON
-const equals = document.querySelector('#equals');
+const equals = document.getElementById('=');
 equals.addEventListener('click', () => getEquals(userInput));
 
 function getEquals(array) {
@@ -199,11 +199,7 @@ backspace.addEventListener('click', ()=> {
 //KEYBOARD INPUTS 
 window.addEventListener('keydown', (e) => matchNumber(e));
 window.addEventListener('keydown', (e) => matchOperator(e));
-window.addEventListener('keydown', (e) => {
-  if(e.key === '=') {
-
-  }
-});
+window.addEventListener('keydown', (e) => getEqualsKeyboard(e));
 
 function matchNumber(e) {
   numbers.forEach((number) => {
@@ -219,6 +215,12 @@ function matchOperator(e) {
       makeEquation(button);
     }
   });
+}
+
+function getEqualsKeyboard(e) {
+  if((e.key === '=') || (e.key === 'Enter')) {
+    getEquals(userInput);
+  }
 }
 
 window.addEventListener('keydown', (e) => console.log(e.key));
