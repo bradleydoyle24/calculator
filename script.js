@@ -7,7 +7,6 @@ let operator;
 let number1;
 let number2;
 let result;
-let dispNum;
 let decimalPresent = false;
 
 // NUMBER KEYS
@@ -104,7 +103,7 @@ function getEquals(array) {
 
 // Changes display to scientific notation if number > 10 characters long.
 function createDisplay(number){
-  dispNum = checkLength(number);
+  let dispNum = checkLength(number);
   display.textContent = `${dispNum}`; 
 }
 
